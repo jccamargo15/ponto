@@ -20,19 +20,19 @@
  */
 // $arquivo = (isset($_FILES['arquivo'])) ? $_FILES['arquivo'] : false;
 if (isset($_FILES['arquivo']['name']) && !empty($_FILES['arquivo']['name'])) {
-$nome_arquivo = $_FILES['arquivo']['name'];
+    $nome_arquivo = $_FILES['arquivo']['name'];
 } else {
-$nome_arquivo = '';
+    $nome_arquivo = '';
 }
 if (isset($_FILES['arquivo']['type']) && !empty($_FILES['arquivo']['type'])) {
-$tipo_arquivo = $_FILES['arquivo']['type'];
+    $tipo_arquivo = $_FILES['arquivo']['type'];
 } else {
-$tipo_arquivo = '';
+    $tipo_arquivo = '';
 }
 if (isset($_FILES['arquivo']['tmp_name']) && !empty($_FILES['arquivo']['tmp_name'])) {
-$arquivo = $_FILES['arquivo']['tmp_name'];
+    $arquivo = $_FILES['arquivo']['tmp_name'];
 } else {
-$arquivo = '';
+    $arquivo = '';
 }
 if (isset($_FILES['arquivo']['error']) && !empty($_FILES['arquivo']['error'])) {
     $erro_arquivo = $_FILES['arquivo']['error'];
@@ -52,12 +52,28 @@ $dir = '';
 $nome_novo_arquivo = date("YmdHis").'_'.$nome_arquivo;
 move_uploaded_file($arquivo, $dir.$nome_novo_arquivo);
 
+if ($arquivo!='') {
+    // Lê todo o arquivo para um array
+    $file = file($nome_novo_arquivo);
+
+    // Lê todo o conteúdo de um arquivo para uma string
+    $conteudo = file_get_contents($nome_novo_arquivo);
+} else {
+    $file = '';
+    $conteudo = '';
+}
+
 echo '<br><br>';
 echo 'Nome do arquivo: '.$nome_arquivo.'<br>';
 echo 'Tipo: '.$tipo_arquivo.'<br>';
 echo 'Arquivo: '.$arquivo.'<br>';
 echo 'Código de erro:'.$erro_arquivo.'<br>';
 echo 'Tamanho: '.$tamanho_arquivo.' bytes<br><br>'; 
+echo 'Conteúdo array: ';
+print_r($file);
+echo '<br><br>';
+echo 'Conteúdo string: ';
+echo $conteudo;
 ?>
 </body>
 </html>
